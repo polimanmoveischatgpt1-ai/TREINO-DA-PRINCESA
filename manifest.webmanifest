@@ -1,0 +1,11 @@
+{
+  "name": "Treino da Princesa",
+  "short_name": "Treino Princesa",
+  "description": "Treino de hipertrofia com foco em glúteos",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fff7fb",
+  "theme_color": "#ff4f93",
+  "icons": [{"src":"icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]
+}
