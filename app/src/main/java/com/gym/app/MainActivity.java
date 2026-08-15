@@ -21,6 +21,10 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import org.json.JSONObject;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+
 public class MainActivity extends Activity {
     private WebView webView;
     private ValueCallback<Uri[]> filePathCallback;
@@ -65,10 +69,35 @@ public class MainActivity extends Activity {
             }
         });
         webView.addJavascriptInterface(new AndroidBridge(this), "GymNative");
-        webView.loadUrl("file:///android_asset/index.html");
+        loadGymInterface();
 
         if (Build.VERSION.SDK_INT >= 33 && checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS}, NOTIFICATION_REQUEST);
+        }
+    }
+
+    private void loadGymInterface() {
+        try (InputStream in = getAssets().open("index.html");
+             InputStreamReader reader = new InputStreamReader(in, StandardCharsets.UTF_8)) {
+            StringBuilder html = new StringBuilder();
+            char[] buffer = new char[4096];
+            int count;
+            while ((count = reader.read(buffer)) != -1) {
+                html.append(buffer, 0, count);
+            }
+            String corrected = html.toString().replace(
+                    "if(!c)return,ctx=",
+                    "if(!c)return;let ctx="
+            );
+            webView.loadDataWithBaseURL(
+                    "file:///android_asset/",
+                    corrected,
+                    "text/html",
+                    "UTF-8",
+                    null
+            );
+        } catch (Exception ex) {
+            webView.loadUrl("file:///android_asset/index.html");
         }
     }
 
