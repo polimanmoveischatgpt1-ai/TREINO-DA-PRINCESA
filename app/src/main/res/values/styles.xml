@@ -1,0 +1,11 @@
+<resources>
+    <style name="Theme.Gym" parent="android:style/Theme.Material.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:windowActionModeOverlay">true</item>
+        <item name="android:colorAccent">#6D5DFD</item>
+        <item name="android:navigationBarColor">#0B0D12</item>
+        <item name="android:statusBarColor">#0B0D12</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+</resources>
